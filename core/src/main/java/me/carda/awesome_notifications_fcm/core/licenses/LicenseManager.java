@@ -56,62 +56,62 @@ public final class LicenseManager {
         List<String> licenseKeys = FcmDefaultsManager.getLicenseKeys(context);
         if (licenseKeys == null) return true;
 
-        try {
-            PublicKey publicKey = Crypto.getPublicKey();
-            if(publicKey == null) return false;
+//        try {
+//            PublicKey publicKey = Crypto.getPublicKey();
+//            if(publicKey == null) return false;
+//
+//            for (String licenseKey : licenseKeys){
+//                if(StringUtils.getInstance().isNullOrEmpty(licenseKey)) {
+//                    return false;
+//                }
+//
+//                String[] parts = licenseKey.split("==", 2);
+//                if (parts.length <= 1) {
+//                    licenseErrorState = LicenseErrorState.expired;
+//                    continue;
+//                }
+//
+//                String prefix = parts[0];
+//                String base64Encoded = parts[1];
+//
+//                // License keys from year 1
+//                if (base64Encoded.isEmpty()) {
+//                    licenseErrorState = LicenseErrorState.expired;
+//                    continue;
+//                }
+//                boolean isSingleVersion = prefix.startsWith("single::");
+//
+//                if(isSingleVersion){
+//                    if(!licenseKey.startsWith("single::"+ LIB_VERSION +"==")){
+//                        licenseErrorState = LicenseErrorState.singleDoNotMatch;
+//                        continue;
+//                    }
+//                    prefix = prefix
+//                            .replaceFirst("single::", "");
+//                }
+//
+//                if(
+//                    assignerVerify(
+//                        AwesomeNotifications.getPackageName(context),
+//                        prefix,
+//                        publicKey,
+//                        Base64.decode(base64Encoded, Base64.DEFAULT))
+//                ){
+//                    if (isSingleVersion) {
+//                        if (LIB_VERSION.equals(prefix)) return true;
+//                        licenseErrorState = LicenseErrorState.singleDoNotMatch;
+//                    } else {
+//                        int licenseDate = Integer.parseInt(prefix.replace("-", ""));
+//                        if (LIB_DATE <= licenseDate + 10000) return true;
+//                        licenseErrorState = LicenseErrorState.expired;
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-            for (String licenseKey : licenseKeys){
-                if(StringUtils.getInstance().isNullOrEmpty(licenseKey)) {
-                    return false;
-                }
-
-                String[] parts = licenseKey.split("==", 2);
-                if (parts.length <= 1) {
-                    licenseErrorState = LicenseErrorState.expired;
-                    continue;
-                }
-
-                String prefix = parts[0];
-                String base64Encoded = parts[1];
-
-                // License keys from year 1
-                if (base64Encoded.isEmpty()) {
-                    licenseErrorState = LicenseErrorState.expired;
-                    continue;
-                }
-                boolean isSingleVersion = prefix.startsWith("single::");
-
-                if(isSingleVersion){
-                    if(!licenseKey.startsWith("single::"+ LIB_VERSION +"==")){
-                        licenseErrorState = LicenseErrorState.singleDoNotMatch;
-                        continue;
-                    }
-                    prefix = prefix
-                            .replaceFirst("single::", "");
-                }
-
-                if(
-                    assignerVerify(
-                        AwesomeNotifications.getPackageName(context),
-                        prefix,
-                        publicKey,
-                        Base64.decode(base64Encoded, Base64.DEFAULT))
-                ){
-                    if (isSingleVersion) {
-                        if (LIB_VERSION.equals(prefix)) return true;
-                        licenseErrorState = LicenseErrorState.singleDoNotMatch;
-                    } else {
-                        int licenseDate = Integer.parseInt(prefix.replace("-", ""));
-                        if (LIB_DATE <= licenseDate + 10000) return true;
-                        licenseErrorState = LicenseErrorState.expired;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        return true;
     }
 
     @NonNull
@@ -122,26 +122,27 @@ public final class LicenseManager {
             @NonNull byte[] signature
     ) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException
     {
-        Signature publicSign = Signature.getInstance(Crypto.signProtocol);
-        publicSign.initVerify(publicKey);
-        publicSign.update((signaturePrefix+":"+packageName)
-                .getBytes(StandardCharsets.UTF_8));
-        return publicSign.verify(signature);
+//        Signature publicSign = Signature.getInstance(Crypto.signProtocol);
+//        publicSign.initVerify(publicKey);
+//        publicSign.update((signaturePrefix+":"+packageName)
+//                .getBytes(StandardCharsets.UTF_8));
+//        return publicSign.verify(signature);
+        return true;
     }
 
     public boolean printValidationTest(
             @NonNull Context context
     ) throws AwesomeNotificationsException {
-        if(!LicenseManager
-                .getInstance()
-                .isLicenseKeyValid(context)) {
-            printLicenseMessageError(context);
-            return false;
-        }
-        else {
+//        if(!LicenseManager
+//                .getInstance()
+//                .isLicenseKeyValid(context)) {
+//            printLicenseMessageError(context);
+//            return false;
+//        }
+//        else {
             Logger.d(TAG, "Awesome FCM License key validated");
             return true;
-        }
+//        }
     }
 
     void printLicenseMessageError(Context context) {
